@@ -11,8 +11,16 @@ export const paginationSlice = createSlice({
       totalProducts: 0,
     },
   },
-  reducers: {},
+  reducers: {
+    initialize: (state, action: PayloadAction<[]>) => {
+      state.value = {
+        ...state.value,
+        products: action.payload,
+        totalProducts: action.payload.length,
+      }
+    },
+  },
 })
 
-export const {  } = paginationSlice.actions
+export const { initialize } = paginationSlice.actions
 export default paginationSlice.reducer
