@@ -6,7 +6,7 @@ import { Container, Table, Row, StyledUl } from './App.styles'
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch()
-  const { page, perPage, totalProducts, totalPages } = useAppSelector(
+  const { perPage, page, totalPages, products, totalProducts } = useAppSelector(
     (state) => state.pagination.value
   )
 
@@ -17,11 +17,19 @@ const App: React.FC = () => {
       .then(() => dispatch(setTotalPages()))
   }, [])
 
+  const displayedProducts = () => {
+    const startIndex = (page - 1) * perPage
+    const endIndex = startIndex + perPage
+    return products.slice(startIndex, endIndex)
+  }
+
   return (
     <Container>
       <div>
-        <input type="number" id="input" />
-        <label htmlFor="input">SORT BY ID NUMBER</label>
+        <input type="number" id="input" className="input" placeholder=" " />
+        <label htmlFor="input" className="label">
+          SORT BY ID NUMBER
+        </label>
       </div>
       <Table>
         <div>
@@ -29,11 +37,13 @@ const App: React.FC = () => {
           <p>name</p>
           <p>year</p>
         </div>
-        <Row backgroundColor={'blue'}>
-          <p>1</p>
-          <p>wine</p>
-          <p>1600</p>
-        </Row>
+        {displayedProducts().map((product) => (
+          <Row key={product['id']} backgroundColor={product['color']}>
+            <p>{product['id']}</p>
+            <p>{product['name']}</p>
+            <p>{product['year']}</p>
+          </Row>
+        ))}
       </Table>
       <StyledUl>
         <li>
