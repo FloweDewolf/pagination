@@ -19,8 +19,28 @@ export const paginationSlice = createSlice({
         totalProducts: action.payload.length,
       }
     },
+    setTotalPages: (state) => {
+      state.value = {
+        ...state.value,
+        totalPages: Math.ceil(state.value.totalProducts / state.value.perPage),
+      }
+    },
+    changePage: (state, action: PayloadAction<number>) => {
+      if (action.payload === 1 && state.value.page === state.value.totalPages) {
+        return
+      }
+      else if (action.payload === -1 && state.value.page === 1) {
+        return
+      }
+
+      state.value = {
+        ...state.value,
+        page:
+          action.payload === 1 ? state.value.page + 1 : state.value.page - 1,
+      }
+    },
   },
 })
 
-export const { initialize } = paginationSlice.actions
+export const { initialize, setTotalPages, changePage } = paginationSlice.actions
 export default paginationSlice.reducer

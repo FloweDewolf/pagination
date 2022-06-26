@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from './hooks'
-import { initialize } from './PaginationSlice'
+import { initialize, setTotalPages, changePage } from './PaginationSlice'
 
 import { Container, Table, Row, StyledUl } from './App.styles'
 
@@ -14,6 +14,7 @@ const App: React.FC = () => {
     fetch('https://reqres.in/api/products')
       .then((res) => res.json())
       .then((res) => dispatch(initialize(res.data)))
+      .then(() => dispatch(setTotalPages()))
   }, [])
 
   return (
@@ -36,10 +37,10 @@ const App: React.FC = () => {
       </Table>
       <StyledUl>
         <li>
-          <button>⟵</button>
+          <button onClick={() => dispatch(changePage(-1))}>⟵</button>
         </li>
         <li>
-          <button>→</button>
+          <button onClick={() => dispatch(changePage(1))}>→</button>
         </li>
       </StyledUl>
     </Container>
