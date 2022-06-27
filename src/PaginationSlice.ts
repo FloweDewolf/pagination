@@ -1,21 +1,36 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+interface PaginationState {
+  value: {
+    perPage: number
+    page: number
+    prevPage: number
+    totalPages: number
+    products: []
+    totalProducts: number
+    input: string
+    isFiltered: Boolean
+  }
+}
+
+const initialState: PaginationState = {
+  value: {
+    perPage: 5,
+    page: 1,
+    prevPage: 1,
+    totalPages: 0,
+    products: [],
+    totalProducts: 0,
+    input: '',
+    isFiltered: false,
+  },
+}
+
 export const paginationSlice = createSlice({
   name: 'pagination',
-  initialState: {
-    value: {
-      perPage: 5,
-      page: 1,
-      prevPage: 1,
-      totalPages: 0,
-      products: [],
-      totalProducts: 0,
-      input: '',
-      isFiltered: false,
-    },
-  },
+  initialState,
   reducers: {
-    initialize: (state, action: PayloadAction<any>) => {
+    initialize: (state, action: PayloadAction<[]>) => {
       state.value = {
         ...state.value,
         products: action.payload,
