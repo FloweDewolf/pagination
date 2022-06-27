@@ -1,25 +1,30 @@
 import React, { useEffect, useRef } from 'react'
-import { useAppDispatch, useAppSelector } from './hooks'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../hooks'
 import {
   changePage,
   initialize,
   onInputChange,
   setTotalPages,
   setIsFiltered,
-} from './PaginationSlice'
+} from '../PaginationSlice'
 
-import { Container, Row, StyledUl, Table } from './App.styles'
+import Row from './Row'
+
+import { Container, StyledUl, Table } from './App.styles'
 
 const App: React.FC = () => {
+  const location = useLocation()
   const dispatch = useAppDispatch()
-  const { perPage, page, products, input, isFiltered } = useAppSelector(
-    (state) => state.pagination.value
-  )
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     dispatch(setIsFiltered(!!inputRef.current?.value))
   }, [inputRef.current?.value])
+
+  const { perPage, page, products, input, isFiltered } = useAppSelector(
+    (state) => state.pagination.value
+  )
 
   const fetchData = () => {
     const API = 'https://reqres.in/api/products'
@@ -31,6 +36,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     fetchData()
+    dispatch(onInputChange(location.pathname.substring(1)))
   }, [])
 
   const displayedProducts = () => {
@@ -68,21 +74,32 @@ const App: React.FC = () => {
           <p>name</p>
           <p>year</p>
         </div>
-        {isFiltered
-          ? displayedFilteredProducts().map((product) => (
-              <Row key={product['id']} backgroundColor={product['color']}>
-                <p>{product['id']}</p>
-                <p>{product['name']}</p>
-                <p>{product['year']}</p>
-              </Row>
-            ))
-          : displayedProducts().map((product) => (
-              <Row key={product['id']} backgroundColor={product['color']}>
-                <p>{product['id']}</p>
-                <p>{product['name']}</p>
-                <p>{product['year']}</p>
-              </Row>
-            ))}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              isFiltered
+                ? displayedFilteredProducts().map((product) => (
+                    <Row key={product['id']} product={product} />
+                  ))
+                : displayedProducts().map((product) => (
+                    <Row key={product['id']} product={product} />
+                  ))
+            }
+          />
+          <Route
+            path="/:productId"
+            element={
+              isFiltered
+                ? displayedFilteredProducts().map((product) => (
+                    <Row key={product['id']} product={product} />
+                  ))
+                : displayedProducts().map((product) => (
+                    <Row key={product['id']} product={product} />
+                  ))
+            }
+          />
+        </Routes>
       </Table>
       <StyledUl>
         <li>

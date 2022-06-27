@@ -89,21 +89,3 @@ export const Table = styled.div`
     }
   }
 `
-
-interface IRow {
-  backgroundColor: string
-}
-
-export const Row = styled.div<IRow>`
-  width: 1000px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border: 2px solid white;
-  border-top: none;
-
-  background-color: ${({ backgroundColor }) => backgroundColor};
-
-  p {
-    text-align: center;
-  }
-`
