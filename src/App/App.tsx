@@ -12,7 +12,7 @@ import SearchById from './SearchById'
 
 import Row from './Row'
 
-import { Container, StyledUl, Table } from './App.styles'
+import { Container, Buttons, Table } from './App.styles'
 
 const App: React.FC = () => {
   const location = useLocation()
@@ -84,14 +84,14 @@ const App: React.FC = () => {
           />
         </Routes>
       </Table>
-      <StyledUl>
+      <Buttons>
         <li>
           <button onClick={() => dispatch(changePage(-1))}>⟵</button>
         </li>
         <li>
           <button onClick={() => dispatch(changePage(1))}>→</button>
         </li>
-      </StyledUl>
+      </Buttons>
     </Container>
   )
 }

@@ -7,7 +7,7 @@ export const Container = styled.div`
   align-items: center;
   justify-items: center;
 `
-export const StyledUl = styled.ul`
+export const Buttons = styled.ul`
   display: flex;
   list-style: none;
 
