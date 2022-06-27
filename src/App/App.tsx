@@ -8,6 +8,8 @@ import {
   setTotalPages,
 } from '../PaginationSlice'
 
+import SearchById from './SearchById'
+
 import Row from './Row'
 
 import { Container, StyledUl, Table } from './App.styles'
@@ -15,7 +17,6 @@ import { Container, StyledUl, Table } from './App.styles'
 const App: React.FC = () => {
   const location = useLocation()
   const dispatch = useAppDispatch()
-  const inputRef = useRef<HTMLInputElement>(null)
 
   const { perPage, page, products, input, isFiltered } = useAppSelector(
     (state) => state.pagination.value
@@ -49,21 +50,7 @@ const App: React.FC = () => {
 
   return (
     <Container>
-      <div>
-        <input
-          data-testid="input-element"
-          ref={inputRef}
-          value={input}
-          onChange={(e) => dispatch(onInputChange(e.target.value))}
-          type="number"
-          id="input"
-          className="input"
-          placeholder=" "
-        />
-        <label htmlFor="input" className="label">
-          FILTER BY ID NUMBER
-        </label>
-      </div>
+      <SearchById />
       <Table>
         <div>
           <p>id</p>
