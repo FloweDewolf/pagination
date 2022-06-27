@@ -1,28 +1,36 @@
 import React, { useEffect, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from './hooks'
 import {
-  initialize,
-  setTotalPages,
   changePage,
+  initialize,
   onInputChange,
+  setTotalPages,
+  setIsFiltered,
 } from './PaginationSlice'
 
-import { Container, Table, Row, StyledUl } from './App.styles'
-import { log } from 'util'
+import { Container, Row, StyledUl, Table } from './App.styles'
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch()
-  const { perPage, page, totalPages, products, totalProducts, input } =
-    useAppSelector((state) => state.pagination.value)
-
+  const { perPage, page, products, input, isFiltered } = useAppSelector(
+    (state) => state.pagination.value
+  )
   const inputRef = useRef<HTMLInputElement>(null)
-  let isFiltered = !!inputRef.current?.value
 
   useEffect(() => {
-    fetch('https://reqres.in/api/products')
+    dispatch(setIsFiltered(!!inputRef.current?.value))
+  }, [inputRef.current?.value])
+
+  const fetchData = () => {
+    const API = 'https://reqres.in/api/products'
+    fetch(API)
       .then((res) => res.json())
       .then((res) => dispatch(initialize(res.data)))
       .then(() => dispatch(setTotalPages()))
+  }
+
+  useEffect(() => {
+    fetchData()
   }, [])
 
   const displayedProducts = () => {

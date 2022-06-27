@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { stat } from 'fs'
 
 export const paginationSlice = createSlice({
   name: 'pagination',
@@ -7,11 +6,12 @@ export const paginationSlice = createSlice({
     value: {
       perPage: 5,
       page: 1,
+      prevPage: 1,
       totalPages: 0,
       products: [],
-      savedProducts: [],
       totalProducts: 0,
       input: '',
+      isFiltered: false,
     },
   },
   reducers: {
@@ -29,11 +29,12 @@ export const paginationSlice = createSlice({
       }
     },
     changePage: (state, action: PayloadAction<number>) => {
-      if (action.payload === 1 && state.value.page === state.value.totalPages) {
+      if (
+        state.value.isFiltered ||
+        (action.payload === 1 && state.value.page === state.value.totalPages) ||
+        (action.payload === -1 && state.value.page === 1)
+      )
         return
-      } else if (action.payload === -1 && state.value.page === 1) {
-        return
-      }
 
       state.value = {
         ...state.value,
@@ -47,9 +48,20 @@ export const paginationSlice = createSlice({
         input: action.payload,
       }
     },
+    setIsFiltered: (state, action: PayloadAction<boolean>) => {
+      state.value = {
+        ...state.value,
+        isFiltered: action.payload,
+      }
+    },
   },
 })
 
-export const { initialize, setTotalPages, changePage, onInputChange } =
-  paginationSlice.actions
+export const {
+  initialize,
+  setTotalPages,
+  changePage,
+  onInputChange,
+  setIsFiltered,
+} = paginationSlice.actions
 export default paginationSlice.reducer
