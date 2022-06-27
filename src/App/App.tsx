@@ -6,7 +6,6 @@ import {
   initialize,
   onInputChange,
   setTotalPages,
-  setIsFiltered,
 } from '../PaginationSlice'
 
 import Row from './Row'
@@ -17,10 +16,6 @@ const App: React.FC = () => {
   const location = useLocation()
   const dispatch = useAppDispatch()
   const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    dispatch(setIsFiltered(!!inputRef.current?.value))
-  }, [inputRef.current?.value])
 
   const { perPage, page, products, input, isFiltered } = useAppSelector(
     (state) => state.pagination.value
@@ -56,6 +51,7 @@ const App: React.FC = () => {
     <Container>
       <div>
         <input
+          data-testid="input-element"
           ref={inputRef}
           value={input}
           onChange={(e) => dispatch(onInputChange(e.target.value))}

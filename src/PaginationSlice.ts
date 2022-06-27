@@ -61,12 +61,7 @@ export const paginationSlice = createSlice({
       state.value = {
         ...state.value,
         input: action.payload,
-      }
-    },
-    setIsFiltered: (state, action: PayloadAction<boolean>) => {
-      state.value = {
-        ...state.value,
-        isFiltered: action.payload,
+        isFiltered: Boolean(action.payload)
       }
     },
   },
@@ -77,6 +72,5 @@ export const {
   setTotalPages,
   changePage,
   onInputChange,
-  setIsFiltered,
 } = paginationSlice.actions
 export default paginationSlice.reducer
