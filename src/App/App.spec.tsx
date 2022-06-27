@@ -12,7 +12,7 @@ describe('Tests of the App component', () => {
     expect(input).toHaveDisplayValue('1')
   })
 
-  test('Checks if the sorting works', () => {
+  test('Checks if the filtering works', () => {
     renderWithProviders(<App />)
     const input = screen.getByTestId('input-element')
     fireEvent.change(input, { target: { value: 2 } })

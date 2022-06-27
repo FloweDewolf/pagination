@@ -61,7 +61,7 @@ const App: React.FC = () => {
           placeholder=" "
         />
         <label htmlFor="input" className="label">
-          SORT BY ID NUMBER
+          FILTER BY ID NUMBER
         </label>
       </div>
       <Table>
