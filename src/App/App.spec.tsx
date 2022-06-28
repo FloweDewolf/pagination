@@ -27,8 +27,8 @@ describe('Tests of the App component', () => {
     renderWithProviders(<App />)
     const button = screen.getByText('→')
     fireEvent.click(button)
-    await waitFor(() => screen.getByText('blue turquoise'))
     await waitFor(() => expect(screen.queryByText('cerulean')).toBeNull())
+    await waitFor(() => screen.queryByText('blue turquoise'))
   })
 
   test('Checks if the button is blocked when filtered products are displayed', async () => {
